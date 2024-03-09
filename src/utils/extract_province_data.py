@@ -37,4 +37,4 @@ class ExtractProvinceData:
 if __name__ == '__main__':
   extract_province_data = ExtractProvinceData()
   extract_province_data.read("./data/raw_province_data.json")
-  extract_province_data.save_to_csv("./data/extracted_province_data.csv")
+  extract_province_data.save_to_csv("./out/extracted_province_data.csv")
