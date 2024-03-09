@@ -6,3 +6,6 @@ extract_province_data:
 
 download_province_data_by_age:
 	python ./src/utils/download_province_data_by_age.py
+
+extract_province_data_by_age:
+	python ./src/utils/extract_province_data_by_age.py
