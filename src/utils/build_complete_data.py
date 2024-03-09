@@ -7,6 +7,7 @@ class BuildCompleteData:
     self.province_area_df = pd.read_csv("./data/province_area.csv")
     self.province_population_df = pd.read_csv("./out/extracted_province_data.csv")
     self.province_population_by_age_df = pd.read_csv("./out/extracted_province_data_by_age.csv")
+    self.province_un_df = pd.read_csv("./data/province_un.csv")
     self.school_data_df = pd.read_csv("./data/raw_school_data.csv")
 
     self.complete_data_rows = []
@@ -31,6 +32,8 @@ class BuildCompleteData:
       complete_row['province_area'] = self.__get_province_area(mapped_province_name)
       complete_row['total_population'] = self.__get_province_total_population(mapped_province_name)
       complete_row['total_education_age_population'] = self.__get_province_education_age_population(mapped_province_name)
+      complete_row['un_smp_avg'] = self.__get_province_un_smp_avg(mapped_province_name)
+      complete_row['un_sma_ipa_avg'] = self.__get_province_un_sma_ipa_avg(mapped_province_name)
 
       self.complete_data_rows.append(complete_row)
 
@@ -61,6 +64,21 @@ class BuildCompleteData:
     except:
       print(f"__get_province_education_age_population: Error occured while mapping province_name {province_name}")
       return 0
+    
+  def __get_province_un_smp_avg(self, province_name):
+    try:
+      return self.province_un_df[self.province_un_df["province_name"] == province_name]["un_smp_avg"].values[0]
+    except:
+      print(f"__get_province_un_smp_avg: Error occured while mapping province_name {province_name}")
+      return 0
+    
+  def __get_province_un_sma_ipa_avg(self, province_name):
+    try:
+      return self.province_un_df[self.province_un_df["province_name"] == province_name]["un_sma_ipa_avg"].values[0]
+    except:
+      print(f"__get_province_un_sma_ipa_avg: Error occured while mapping province_name {province_name}")
+      return 0
+
 
   def save_to_csv(self, filepath):
     print("Beginning to save CSV file ...")
@@ -69,11 +87,11 @@ class BuildCompleteData:
       with open(filepath, 'w', newline='') as csv_file:
         writer = csv.writer(csv_file)
 
-        writer.writerow(['province_name', 'city_name', 'district_name', 'school_name', 'stage', 'status', 'lat', 'long', 'province_area', 'total_population', 'total_education_age_population'])
+        writer.writerow(['province_name', 'city_name', 'district_name', 'school_name', 'stage', 'status', 'lat', 'long', 'province_area', 'province_total_population', 'province_total_education_age_population', 'province_un_smp_avg', 'province_un_sma_ipa_avg'])
 
         for row in self.complete_data_rows:
           try:
-            writer.writerow([row['province_name'], row['city_name'], row['district_name'], row['school_name'], row['stage'], row['status'], row['lat'], row['long'], row['province_area'], row['total_population'], row['total_education_age_population']])
+            writer.writerow([row['province_name'], row['city_name'], row['district_name'], row['school_name'], row['stage'], row['status'], row['lat'], row['long'], row['province_area'], row['total_population'], row['total_education_age_population'], row['un_smp_avg'], row['un_sma_ipa_avg']])
           except:
             print(f"An error occured while writing row {row}")
 
