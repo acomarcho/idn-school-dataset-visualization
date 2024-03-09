@@ -1,2 +1,5 @@
 extract_provinces:
 	python ./src/utils/extract_provinces.py
+
+extract_province_data:
+	python ./src/utils/extract_province_data.py
